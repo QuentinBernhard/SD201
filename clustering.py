@@ -1,4 +1,3 @@
-from operator import index
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -62,7 +61,7 @@ print(tsne_result.shape)
 
 #elbow method :
 
-# for i in range(2, 10):
+# for i in range(2, 13):
 #     km = KMeans(
 #     n_clusters=i, init='k-means++',
 #     n_init=10, max_iter=300, 
@@ -119,6 +118,5 @@ ax = fig.add_subplot()
 ax.scatter(tsne_result[:,0], tsne_result[:,1], c = km_colors, marker = 'o')
 ax.scatter(km.cluster_centers_[:, 0], km.cluster_centers_[:, 1], c = 'red', marker = '+')
 ax.scatter(tsne_delayed[:, 0], tsne_delayed[:, 1], c = 'black', marker = '+')
-
 
 plt.show()
