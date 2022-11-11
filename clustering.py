@@ -1,3 +1,4 @@
+from operator import index
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -58,12 +59,25 @@ tsne_result = tsne.fit_transform(data_cluster)
 
 print(tsne_result.shape)
 
+
+#elbow method :
+
+# for i in range(2, 10):
+#     km = KMeans(
+#     n_clusters=i, init='k-means++',
+#     n_init=10, max_iter=300, 
+#     tol=1e-04, random_state=0)
+
+#     y_km = km.fit_predict(tsne_result)
+#     print(i, ' SSE = ', km.inertia_)
+
 km = KMeans(
-n_clusters=13, init='k-means++',
+n_clusters=7, init='k-means++',
 n_init=10, max_iter=300, 
 tol=1e-04, random_state=0)
 
 y_km = km.fit_predict(tsne_result)
+print(' SSE = ', km.inertia_)
 
 
 fte_colors = {
@@ -87,14 +101,24 @@ km_colors = [fte_colors[label] for label in km.labels_]
 
 clusters = [[]]*(max(km.labels_)+1)
 
-index = data[data['ArrDelay'] > 0].index
+indexArr = data[data['ArrDelay'] > 60].index
 
+print(len(indexArr))
 
+tsne_delayed = []
+
+for i in range(len(tsne_result)):
+    if i in indexArr:
+        tsne_delayed.append([tsne_result[i][0], tsne_result[i][1]])
+
+tsne_delayed = np.stack(tsne_delayed)
 
 fig = plt.figure(1)
 ax = fig.add_subplot()
 
 ax.scatter(tsne_result[:,0], tsne_result[:,1], c = km_colors, marker = 'o')
 ax.scatter(km.cluster_centers_[:, 0], km.cluster_centers_[:, 1], c = 'red', marker = '+')
+ax.scatter(tsne_delayed[:, 0], tsne_delayed[:, 1], c = 'black', marker = '+')
+
 
 plt.show()

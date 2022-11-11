@@ -57,6 +57,7 @@ print("cleaned")
 cleaned_data.reset_index(inplace=True)     #reset les index pour qu'ils correspondent
 
 cleaned_data.drop(columns='Cancelled', inplace=True)
+cleaned_data.dropna()
 # cleaned_data.drop(columns='index', inplace= True)
 
 np.random.seed(1)
